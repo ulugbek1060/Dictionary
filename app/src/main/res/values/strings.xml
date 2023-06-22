@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Dictionary</string>
+    <string name="no_such_word">No such word</string>
+    <string name="no_internet_connection">No Internet connection</string>
+    <string name="something_went_wrong">Something went wrong</string>
+</resources>
