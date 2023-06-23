@@ -1,6 +1,6 @@
 package gh.code.dictionary.data.repository
 
-import gh.code.dictionary.data.models.ResponseWord
+import gh.code.dictionary.data.network.models.ResponseWord
 
 interface DictionaryRepository {
 

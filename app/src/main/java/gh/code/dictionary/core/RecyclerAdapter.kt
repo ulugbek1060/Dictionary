@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import gh.code.dictionary.data.models.ResponseWord
+import gh.code.dictionary.data.network.models.ResponseWord
 import gh.code.dictionary.databinding.ItemViewBinding
 
 

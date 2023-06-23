@@ -1,4 +1,4 @@
-package gh.code.dictionary.data.models
+package gh.code.dictionary.data.network.models
 
 data class Definition(
     val definition: String?,

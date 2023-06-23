@@ -9,12 +9,10 @@ import gh.code.dictionary.R
 import gh.code.dictionary.core.AppException
 import gh.code.dictionary.core.ConnectionException
 import gh.code.dictionary.core.DataNotFoundException
-import gh.code.dictionary.core.ParseBackendException
 import gh.code.dictionary.core.Resource
-import gh.code.dictionary.data.models.ResponseWord
+import gh.code.dictionary.data.database.AppDatabase
+import gh.code.dictionary.data.network.models.ResponseWord
 import gh.code.dictionary.data.repository.DictionaryRepository
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
@@ -56,7 +54,6 @@ class SearchViewModel(
             _showError.value = null
         }
     }
-
 
     private fun showProgress() {
         _wordList.value = _wordList.value?.copy(

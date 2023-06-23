@@ -18,8 +18,12 @@ class ViewModelFactory(
         val resource = app.resource
         return when {
             modelClass.isAssignableFrom(SearchViewModel::class.java) -> {
-                SearchViewModel(repository, resource) as T
+                SearchViewModel(
+                    repository = repository,
+                    resource = resource
+                ) as T
             }
+
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }
     }

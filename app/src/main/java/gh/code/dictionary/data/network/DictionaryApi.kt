@@ -1,6 +1,6 @@
-package gh.code.dictionary.data.api
+package gh.code.dictionary.data.network
 
-import gh.code.dictionary.data.models.ResponseWord
+import gh.code.dictionary.data.network.models.ResponseWord
 import retrofit2.http.GET
 import retrofit2.http.Path
 
