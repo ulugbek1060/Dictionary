@@ -1,19 +1,20 @@
 package gh.code.dictionary.data.repository
 
-import gh.code.dictionary.data.network.models.ResponseWord
+import gh.code.dictionary.data.network.models.Word
+import kotlinx.coroutines.flow.Flow
 
 interface DictionaryRepository {
 
-    suspend fun getWord(word: String): List<ResponseWord>
+    suspend fun searchWord(word: String): List<Word>
 
-    suspend fun saveToHistory(word: String)
+    suspend fun saveToHistory(word: Word)
 
-    suspend fun removeFromHistory(word: String)
+    suspend fun removeFromHistory(word: Word)
+
+    fun getWordFromHistory(phonetic: String): Flow<Word>
 
     suspend fun clearHistory()
 
-    suspend fun bookmark(word: String)
-
-    suspend fun removeBookmark(word: String)
+    suspend fun getHistory(): Flow<List<Word>>
 
 }

@@ -4,14 +4,14 @@ import gh.code.dictionary.core.ConnectionException
 import gh.code.dictionary.core.DataNotFoundException
 import gh.code.dictionary.core.ParseBackendException
 import gh.code.dictionary.data.Mapper
-import gh.code.dictionary.data.database.AppDatabase
 import gh.code.dictionary.data.database.DictionaryDao
 import gh.code.dictionary.data.network.DictionaryApi
-import gh.code.dictionary.data.network.models.ResponseWord
+import gh.code.dictionary.data.network.models.Word
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import org.json.JSONObject
 import retrofit2.HttpException
 import java.io.IOException
-import java.lang.Appendable
 
 class DictionaryRepositoryImpl(
     private val dictionaryApi: DictionaryApi,
@@ -19,7 +19,17 @@ class DictionaryRepositoryImpl(
     private val mapper: Mapper
 ) : DictionaryRepository {
 
-    override suspend fun getWord(word: String): List<ResponseWord> = try {
+    override suspend fun getHistory(): Flow<List<Word>> {
+        return dictionaryDao
+            .getAllWords()
+            .map { list ->
+                list.map { entity ->
+                    mapper.toModel(entity)
+                }
+            }
+    }
+
+    override suspend fun searchWord(word: String): List<Word> = try {
         dictionaryApi.getWord(word = word)
     } catch (e: HttpException) {
         throw createBackendException(e)
@@ -29,25 +39,24 @@ class DictionaryRepositoryImpl(
         throw e
     }
 
-    override suspend fun saveToHistory(word: String) {
-//        dictionaryDao.bookmark()
+    override suspend fun saveToHistory(word: Word) {
+        dictionaryDao.saveToHistory(mapper.fromModel(word))
     }
 
-    override suspend fun removeFromHistory(word: String) {
-        TODO("Not yet implemented")
+    override suspend fun removeFromHistory(word: Word) {
+        if (word.phonetic.isNullOrBlank()) throw DataNotFoundException("Word does not exist!")
+        dictionaryDao.removeFromHistory(word.phonetic)
     }
 
-    override suspend fun clearHistory() {
-        TODO("Not yet implemented")
+    override fun getWordFromHistory(phonetic: String): Flow<Word> {
+        return dictionaryDao
+            .getWordByQuery(phonetic)
+            .map {
+                mapper.toModel(it)
+            }
     }
 
-    override suspend fun bookmark(word: String) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun removeBookmark(word: String) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun clearHistory() = dictionaryDao.clearHistory()
 
     private fun createBackendException(e: HttpException): Exception = try {
         val jsonObject = JSONObject(e.response()!!.errorBody()!!.string())
@@ -58,7 +67,7 @@ class DictionaryRepositoryImpl(
         } else {
             "error"
         }
-        DataNotFoundException(e.code(), message)
+        DataNotFoundException(message)
     } catch (e: Exception) {
         ParseBackendException(e)
     }

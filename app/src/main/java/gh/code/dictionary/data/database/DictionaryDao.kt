@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 interface DictionaryDao {
 
     @Insert
-    suspend fun bookmark(word: EntityWord)
+    suspend fun saveToHistory(word: EntityWord)
 
     @Query("SELECT * FROM word_entity")
     fun getAllWords(): Flow<List<EntityWord>>
@@ -20,9 +20,9 @@ interface DictionaryDao {
     fun getWordByQuery(phonetic: String): Flow<EntityWord>
 
     @Query("DELETE FROM word_entity WHERE phonetic = :phonetic")
-    suspend fun removeBookmark(phonetic: String)
+    suspend fun removeFromHistory(phonetic: String)
 
     @Query("DELETE FROM word_entity")
-    suspend fun clearTable()
+    suspend fun clearHistory()
 
 }

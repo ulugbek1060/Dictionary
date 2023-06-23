@@ -1,6 +1,6 @@
 package gh.code.dictionary.data.network.models
 
-data class ResponseWord(
+data class Word(
     val word: String?,
     val phonetic: String?,
     val meanings: List<Meaning>? = listOf(),

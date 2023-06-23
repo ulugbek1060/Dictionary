@@ -10,8 +10,7 @@ import gh.code.dictionary.core.AppException
 import gh.code.dictionary.core.ConnectionException
 import gh.code.dictionary.core.DataNotFoundException
 import gh.code.dictionary.core.Resource
-import gh.code.dictionary.data.database.AppDatabase
-import gh.code.dictionary.data.network.models.ResponseWord
+import gh.code.dictionary.data.network.models.Word
 import gh.code.dictionary.data.repository.DictionaryRepository
 import kotlinx.coroutines.launch
 
@@ -37,7 +36,7 @@ class SearchViewModel(
                 return@launch
             }
 
-            val words = repository.getWord(word)
+            val words = repository.searchWord(word)
             clearList()
             _wordList.value = _wordList.value?.copy(
                 words = words,
@@ -76,7 +75,7 @@ class SearchViewModel(
 
     data class State(
         val progress: Boolean = false,
-        val words: List<ResponseWord> = emptyList(),
+        val words: List<Word> = emptyList(),
     ) {
         val isEmpty: Boolean = words.isEmpty()
     }

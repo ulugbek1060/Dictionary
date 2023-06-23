@@ -25,7 +25,10 @@
             android:id="@+id/edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="enter word that you want to know"
+            android:layout_margin="12dp"
+            android:background="@drawable/search_back"
+            android:hint="Enter a word that you want to know"
+            android:padding="16dp"
             android:textColor="@color/white"
             android:textColorHint="@color/white" />
 
@@ -33,9 +36,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
+        tools:listitem="@layout/item_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

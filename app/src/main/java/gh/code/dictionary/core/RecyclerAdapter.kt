@@ -6,19 +6,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import gh.code.dictionary.data.network.models.ResponseWord
+import gh.code.dictionary.data.network.models.Word
 import gh.code.dictionary.databinding.ItemViewBinding
 
 
-class RecyclerAdapter : ListAdapter<ResponseWord, RecyclerAdapter.ItemViewHolder>(ItemDiffUtil()) {
+class RecyclerAdapter : ListAdapter<Word, RecyclerAdapter.ItemViewHolder>(ItemDiffUtil()) {
 
     class ItemViewHolder(
         private val binding: ItemViewBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(responseWord: ResponseWord) {
+        fun onBind(word: Word) {
             binding.apply {
-                tvPhonetic.text = responseWord.phonetic
-                tvWord.text = responseWord.word
+                tvPhonetic.text = word.phonetic
+                tvWord.text = word.word
                 root.setOnClickListener {
 
                 }
@@ -26,12 +26,12 @@ class RecyclerAdapter : ListAdapter<ResponseWord, RecyclerAdapter.ItemViewHolder
         }
     }
 
-    class ItemDiffUtil : DiffUtil.ItemCallback<ResponseWord>() {
-        override fun areItemsTheSame(oldItem: ResponseWord, newItem: ResponseWord) =
+    class ItemDiffUtil : DiffUtil.ItemCallback<Word>() {
+        override fun areItemsTheSame(oldItem: Word, newItem: Word) =
             oldItem == newItem
 
         @SuppressLint("DiffUtilEquals")
-        override fun areContentsTheSame(oldItem: ResponseWord, newItem: ResponseWord) =
+        override fun areContentsTheSame(oldItem: Word, newItem: Word) =
             oldItem === newItem
     }
 

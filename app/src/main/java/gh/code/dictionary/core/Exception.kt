@@ -10,7 +10,6 @@ class ConnectionException(
 ) : AppException(cause = cause)
 
 class DataNotFoundException(
-    val code: Int,
     message: String?
 ) : AppException(message = message)
 
