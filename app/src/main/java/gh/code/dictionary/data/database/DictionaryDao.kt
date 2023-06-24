@@ -3,6 +3,7 @@ package gh.code.dictionary.data.database
 import androidx.core.view.WindowInsetsCompat.Type.InsetsType
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import gh.code.dictionary.data.database.entity.EntityWord
 import kotlinx.coroutines.flow.Flow
@@ -10,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface DictionaryDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun saveToHistory(word: EntityWord)
 
     @Query("SELECT * FROM word_entity")

@@ -3,4 +3,7 @@
     <string name="no_such_word">No such word</string>
     <string name="no_internet_connection">No Internet connection</string>
     <string name="something_went_wrong">Something went wrong</string>
+    <string name="empty_field">Word fields must not be empty!</string>
+    <string name="search">search</string>
+    <string name="history">history</string>
 </resources>

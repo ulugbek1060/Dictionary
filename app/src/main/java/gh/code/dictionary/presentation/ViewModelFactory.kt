@@ -1,12 +1,14 @@
-package gh.code.dictionary.core
+package gh.code.dictionary.presentation
 
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import gh.code.dictionary.App
-import gh.code.dictionary.presentation.SearchViewModel
+import gh.code.dictionary.core.BaseFragment
+import gh.code.dictionary.core.BaseScreen
 
-//const val ARG_SCREEN = "SCREEN"
+const val ARG_SCREEN = "SCREEN"
 
 class ViewModelFactory(
 //    private val screen: BaseScreen,
@@ -24,6 +26,19 @@ class ViewModelFactory(
                 ) as T
             }
 
+            modelClass.isAssignableFrom(HistoryViewModel::class.java) -> {
+                HistoryViewModel(
+                    repository = repository
+                ) as T
+            }
+
+            modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
+                DetailViewModel(
+                    repository = repository,
+                    resource = resource,
+                ) as T
+            }
+
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }
     }
@@ -32,8 +47,11 @@ class ViewModelFactory(
 inline fun <reified VM : ViewModel> BaseFragment.screenViewModel() = viewModels<VM> {
     val application = requireActivity().application as App
 //    val screen = requireArguments().getSerializable(ARG_SCREEN) as BaseScreen
-    ViewModelFactory(
-//        screen,
-        application
-    )
+    ViewModelFactory(application)
+}
+
+inline fun <reified VM : ViewModel> BottomSheetDialogFragment.screenViewModel() = viewModels<VM> {
+    val application = requireActivity().application as App
+//    val screen = requireArguments().getSerializable(ARG_SCREEN) as BaseScreen
+    ViewModelFactory(application)
 }

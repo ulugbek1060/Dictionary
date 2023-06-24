@@ -13,6 +13,8 @@ class DataNotFoundException(
     message: String?
 ) : AppException(message = message)
 
+class EmptyFieldException : AppException()
+
 class ParseBackendException(
     cause: Throwable
 ) : AppException(cause = cause)

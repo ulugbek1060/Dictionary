@@ -22,10 +22,10 @@ class SearchViewModel(
     private val TAG = "SearchViewModel"
 
     private val _wordList = MutableLiveData(State())
-    val wordList: LiveData<State> = _wordList
+    val wordList: LiveData<State> get() =  _wordList
 
     private val _showError = MutableLiveData<String?>(null)
-    val showError: LiveData<String?> = _showError
+    val showError: LiveData<String?> get() =  _showError
 
     fun searchWord(word: String) = viewModelScope.launch {
         showProgress()

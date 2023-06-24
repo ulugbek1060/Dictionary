@@ -23,9 +23,9 @@ class DictionaryRepositoryImpl(
         return dictionaryDao
             .getAllWords()
             .map { list ->
-                list.map { entity ->
-                    mapper.toModel(entity)
-                }
+                list
+                    .map { entity -> mapper.toModel(entity) }
+                    .reversed()
             }
     }
 
