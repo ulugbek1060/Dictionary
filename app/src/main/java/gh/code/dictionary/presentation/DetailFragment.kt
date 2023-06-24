@@ -3,7 +3,9 @@ package gh.code.dictionary.presentation
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import gh.code.dictionary.App
 import gh.code.dictionary.R
 import gh.code.dictionary.core.BaseScreen
 import gh.code.dictionary.core.serializable
@@ -18,7 +20,9 @@ class DetailFragment : BottomSheetDialogFragment(R.layout.fragment_detail) {
     ) : BaseScreen
 
     private val binding: FragmentDetailBinding by viewBinding()
-    private val viewModel by screenViewModel<DetailViewModel>()
+    private val viewModel by viewModels<DetailViewModel> {
+        ViewModelFactory(requireActivity().application as App)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

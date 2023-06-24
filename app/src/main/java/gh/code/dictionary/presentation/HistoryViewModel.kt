@@ -14,7 +14,7 @@ class HistoryViewModel(
 ) : ViewModel() {
 
     private val _historyList = MutableLiveData<List<Word>>(emptyList())
-    val historyList: LiveData<List<Word>> get() =  _historyList
+    val historyList: LiveData<List<Word>> get() = _historyList
 
     init {
         viewModelScope.launch {
@@ -22,5 +22,9 @@ class HistoryViewModel(
                 _historyList.value = it
             }
         }
+    }
+
+    fun clearHistory() {
+
     }
 }

@@ -11,7 +11,6 @@ import gh.code.dictionary.core.BaseScreen
 const val ARG_SCREEN = "SCREEN"
 
 class ViewModelFactory(
-//    private val screen: BaseScreen,
     private val app: App
 ) : ViewModelProvider.Factory {
 
@@ -46,12 +45,5 @@ class ViewModelFactory(
 
 inline fun <reified VM : ViewModel> BaseFragment.screenViewModel() = viewModels<VM> {
     val application = requireActivity().application as App
-//    val screen = requireArguments().getSerializable(ARG_SCREEN) as BaseScreen
-    ViewModelFactory(application)
-}
-
-inline fun <reified VM : ViewModel> BottomSheetDialogFragment.screenViewModel() = viewModels<VM> {
-    val application = requireActivity().application as App
-//    val screen = requireArguments().getSerializable(ARG_SCREEN) as BaseScreen
     ViewModelFactory(application)
 }

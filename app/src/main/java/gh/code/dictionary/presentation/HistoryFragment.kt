@@ -13,6 +13,7 @@ import gh.code.dictionary.core.RecyclerAdapter
 import gh.code.dictionary.core.RecyclerItemView
 import gh.code.dictionary.core.viewBinding
 import gh.code.dictionary.data.network.models.Word
+import gh.code.dictionary.presentation.DetailFragment.DetailScreen
 import gh.code.dictionary.databinding.FragmentHistoryBinding
 
 class HistoryFragment : BaseFragment(R.layout.fragment_history), OnItemClickListener {
@@ -39,11 +40,15 @@ class HistoryFragment : BaseFragment(R.layout.fragment_history), OnItemClickList
         if (item is Word) {
             findNavController().navigate(
                 resId = R.id.action_historyFragment_to_detailFragment,
-                args = bundleOf(ARG_SCREEN to DetailFragment.DetailScreen(item))
+                args = bundleOf(ARG_SCREEN to DetailScreen(item))
             )
         }
         else {
-            Toast.makeText(requireContext(), "Item is not correct!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                "Item is not correct!",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
