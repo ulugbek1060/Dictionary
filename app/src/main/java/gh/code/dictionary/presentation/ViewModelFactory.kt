@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import gh.code.dictionary.App
+import gh.code.dictionary.core.BaseBottomSheetDialogFragment
 import gh.code.dictionary.core.BaseFragment
 import gh.code.dictionary.core.BaseScreen
 
@@ -44,6 +45,11 @@ class ViewModelFactory(
 }
 
 inline fun <reified VM : ViewModel> BaseFragment.screenViewModel() = viewModels<VM> {
+    val application = requireActivity().application as App
+    ViewModelFactory(application)
+}
+
+inline fun <reified VM : ViewModel> BaseBottomSheetDialogFragment.screenViewModel() = viewModels<VM> {
     val application = requireActivity().application as App
     ViewModelFactory(application)
 }

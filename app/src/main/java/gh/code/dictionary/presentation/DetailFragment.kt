@@ -3,26 +3,22 @@ package gh.code.dictionary.presentation
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.fragment.app.viewModels
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import gh.code.dictionary.App
 import gh.code.dictionary.R
+import gh.code.dictionary.core.BaseBottomSheetDialogFragment
 import gh.code.dictionary.core.BaseScreen
 import gh.code.dictionary.core.serializable
 import gh.code.dictionary.core.viewBinding
 import gh.code.dictionary.data.network.models.Word
 import gh.code.dictionary.databinding.FragmentDetailBinding
 
-class DetailFragment : BottomSheetDialogFragment(R.layout.fragment_detail) {
+class DetailFragment : BaseBottomSheetDialogFragment(R.layout.fragment_detail) {
 
     class DetailScreen(
         val word: Word
     ) : BaseScreen
 
-    private val binding: FragmentDetailBinding by viewBinding()
-    private val viewModel by viewModels<DetailViewModel> {
-        ViewModelFactory(requireActivity().application as App)
-    }
+    override val binding: FragmentDetailBinding by viewBinding()
+    override val viewModel by screenViewModel<DetailViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
