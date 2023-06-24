@@ -13,8 +13,7 @@ import gh.code.dictionary.data.repository.DictionaryRepository
 import kotlinx.coroutines.launch
 
 class DetailViewModel(
-    private val repository: DictionaryRepository,
-    private val resource: Resource
+    private val repository: DictionaryRepository, private val resource: Resource
 ) : ViewModel() {
 
     private val _showError = MutableLiveData<String?>(null)
@@ -30,6 +29,20 @@ class DetailViewModel(
         }
         _word.value = word!!
         saveToHistory(word)
+    }
+
+    fun getAudioUrl(): String? {
+        var audio: String? = null
+        _word.value?.phonetics?.forEach { phonetic ->
+            if (!phonetic.audio.isNullOrBlank()) {
+                audio = phonetic.audio
+                return@forEach
+            }
+        }
+        if (audio.isNullOrBlank()) {
+            _showError.value = resource.getString(R.string.audio_not_found)
+        }
+        return audio
     }
 
     private fun saveToHistory(word: Word) = viewModelScope.launch {

@@ -4,6 +4,7 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import gh.code.dictionary.data.database.entity.MeaningR
+import gh.code.dictionary.data.database.entity.PhoneticR
 
 class Converters {
     private val gson = Gson()
@@ -23,4 +24,12 @@ class Converters {
     @TypeConverter
     fun toMeaningsList(str: String): List<MeaningR> =
         gson.fromJson(str, object : TypeToken<List<MeaningR>>() {}.type)
+
+    @TypeConverter
+    fun fromPhoneticsList(phonetics: List<PhoneticR>): String =
+        gson.toJson(phonetics)
+
+    @TypeConverter
+    fun toPhoneticsList(str: String): List<PhoneticR> =
+        gson.fromJson(str, object : TypeToken<List<PhoneticR>>() {}.type)
 }

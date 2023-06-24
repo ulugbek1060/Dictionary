@@ -1,9 +1,16 @@
 package gh.code.dictionary.core
 
+import android.annotation.SuppressLint
+import android.media.AudioAttributes
+import android.media.MediaPlayer
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.annotation.CheckResult
+import gh.code.dictionary.R
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -30,4 +37,34 @@ fun EditText.textChanges(): Flow<CharSequence?> {
         addTextChangedListener(listener)
         awaitClose { removeTextChangedListener(listener) }
     }.onStart { emit(text) }
+}
+
+@SuppressLint("UseCompatLoadingForDrawables")
+fun ImageView.playFromUrl(
+    url: String?,
+    onStart: MediaPlayer.() -> Unit
+) {
+    val audioAttributes = AudioAttributes.Builder()
+        .setUsage(AudioAttributes.USAGE_MEDIA)
+        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+        .build()
+
+    if (url.isNullOrBlank()) return
+
+    MediaPlayer().apply {
+        setAudioAttributes(audioAttributes)
+        setDataSource(url)
+
+        setOnPreparedListener {
+            isEnabled = false
+            start()
+            setImageDrawable(context.getDrawable(R.drawable.ic_pause_24))
+        }
+
+        setOnCompletionListener {
+            setImageDrawable(context.getDrawable(R.drawable.ic_play_arrow_24))
+            release()
+            isEnabled = true
+        }
+    }.onStart()
 }

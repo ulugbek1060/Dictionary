@@ -1,13 +1,14 @@
 package gh.code.dictionary.data.network.models
 
-import gh.code.dictionary.core.RecyclerItemView
+import gh.code.dictionary.core.ItemWordView
 
 data class Word(
     val word: String?,
     val phonetic: String?,
     val meanings: List<Meaning>? = listOf(),
+    val phonetics: List<Phonetic>? = listOf(),
     val sourceUrls: List<String>? = listOf(),
-) : RecyclerItemView {
+) : ItemWordView {
     override val itemWord: String? get() = word
     override val itemPhonetic: String? get() = phonetic
 

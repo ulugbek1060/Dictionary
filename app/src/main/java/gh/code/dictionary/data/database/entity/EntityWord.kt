@@ -8,5 +8,6 @@ data class EntityWord(
     val word: String?,
     @PrimaryKey val phonetic: String,
     val meanings: List<MeaningR>? = listOf(),
+    val phonetics: List<PhoneticR>? = listOf(),
     val sourceUrl: List<String>? = listOf()
 )

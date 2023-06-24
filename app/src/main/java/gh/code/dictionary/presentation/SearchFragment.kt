@@ -8,12 +8,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import gh.code.dictionary.R
-import gh.code.dictionary.core.RecyclerAdapter
+import gh.code.dictionary.core.AdapterWord
 import gh.code.dictionary.core.viewBinding
 import gh.code.dictionary.databinding.FragmentSearchBinding
 import gh.code.dictionary.core.BaseFragment
 import gh.code.dictionary.core.OnItemClickListener
-import gh.code.dictionary.core.RecyclerItemView
+import gh.code.dictionary.core.ItemWordView
 import gh.code.dictionary.core.textChanges
 import gh.code.dictionary.presentation.DetailFragment.DetailScreen
 import gh.code.dictionary.data.network.models.Word
@@ -27,7 +27,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_search), OnItemClickListen
 
     override val binding by viewBinding<FragmentSearchBinding>()
     override val viewModel by screenViewModel<SearchViewModel>()
-    private val adapter by lazy { RecyclerAdapter(this) }
+    private val adapter by lazy { AdapterWord(this) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,7 +64,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_search), OnItemClickListen
         }.launchIn(lifecycleScope)
     }
 
-    override fun onClick(item: RecyclerItemView) {
+    override fun onClick(item: ItemWordView) {
         if (item is Word) {
             findNavController().navigate(
                 resId = R.id.action_searchFragment_to_detailFragment,

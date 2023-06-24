@@ -6,26 +6,25 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import gh.code.dictionary.data.network.models.Word
-import gh.code.dictionary.databinding.ItemViewBinding
+import gh.code.dictionary.databinding.ItemWordViewBinding
 
-interface RecyclerItemView {
+interface ItemWordView {
     val itemWord: String?
     val itemPhonetic: String?
 }
 
 interface OnItemClickListener {
-    fun onClick(item: RecyclerItemView)
+    fun onClick(item: ItemWordView)
 }
 
-class RecyclerAdapter(
+class AdapterWord(
     private val itemClickListener: OnItemClickListener
-) : ListAdapter<RecyclerItemView, RecyclerAdapter.ItemViewHolder>(ItemDiffUtil()) {
+) : ListAdapter<ItemWordView, AdapterWord.ItemViewHolder>(ItemDiffUtil()) {
 
     inner class ItemViewHolder(
-        private val binding: ItemViewBinding
+        private val binding: ItemWordViewBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(itemView: RecyclerItemView) {
+        fun onBind(itemView: ItemWordView) {
             binding.apply {
                 tvPhonetic.text = itemView.itemPhonetic
                 tvWord.text = itemView.itemWord
@@ -36,18 +35,18 @@ class RecyclerAdapter(
         }
     }
 
-    class ItemDiffUtil : DiffUtil.ItemCallback<RecyclerItemView>() {
-        override fun areItemsTheSame(oldItem: RecyclerItemView, newItem: RecyclerItemView) =
-            oldItem == newItem
+    class ItemDiffUtil : DiffUtil.ItemCallback<ItemWordView>() {
+        override fun areItemsTheSame(oldItem: ItemWordView, newItem: ItemWordView) =
+            oldItem.toString() == newItem.toString()
 
         @SuppressLint("DiffUtilEquals")
-        override fun areContentsTheSame(oldItem: RecyclerItemView, newItem: RecyclerItemView) =
+        override fun areContentsTheSame(oldItem: ItemWordView, newItem: ItemWordView) =
             oldItem === newItem
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ItemViewHolder(
-            ItemViewBinding.inflate(
+            ItemWordViewBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
         )

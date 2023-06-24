@@ -5,8 +5,10 @@ import gh.code.dictionary.core.EmptyFieldException
 import gh.code.dictionary.data.database.entity.DefinitionR
 import gh.code.dictionary.data.database.entity.EntityWord
 import gh.code.dictionary.data.database.entity.MeaningR
+import gh.code.dictionary.data.database.entity.PhoneticR
 import gh.code.dictionary.data.network.models.Definition
 import gh.code.dictionary.data.network.models.Meaning
+import gh.code.dictionary.data.network.models.Phonetic
 import gh.code.dictionary.data.network.models.Word
 
 class MapperImpl : Mapper {
@@ -30,6 +32,12 @@ class MapperImpl : Mapper {
                     }
                 )
             },
+            phonetics = model.phonetics?.map { phonetic ->
+                PhoneticR(
+                    text = phonetic.text,
+                    audio = phonetic.audio
+                )
+            },
             sourceUrl = model.sourceUrls
         )
     }
@@ -51,6 +59,12 @@ class MapperImpl : Mapper {
                             synonyms = def.synonyms
                         )
                     }
+                )
+            },
+            phonetics = entityWord.phonetics?.map { phonetic ->
+                Phonetic(
+                    text = phonetic.text,
+                    audio = phonetic.audio
                 )
             },
             sourceUrls = entityWord.sourceUrl
