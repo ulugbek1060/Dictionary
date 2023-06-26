@@ -12,11 +12,13 @@ import gh.code.dictionary.core.asLiveData
 import gh.code.dictionary.core.publishEvent
 import gh.code.dictionary.data.network.models.Word
 import gh.code.dictionary.data.repository.DictionaryRepository
+import gh.code.dictionary.utils.Logger
 import kotlinx.coroutines.launch
 
 class DetailViewModel(
     private val repository: DictionaryRepository,
-    private val resource: Resource
+    private val resource: Resource,
+    private val logger: Logger
 ) : ViewModel() {
 
     private val _showError = MutableLiveEvent<String?>(null)
@@ -44,6 +46,7 @@ class DetailViewModel(
         }
         if (audio.isNullOrBlank()) {
             _showError.publishEvent(resource.getString(R.string.audio_not_found))
+            logger.err(resource.getString(R.string.audio_not_found))
         }
         return audio
     }
@@ -53,8 +56,10 @@ class DetailViewModel(
             repository.saveToHistory(word)
         } catch (e: EmptyFieldException) {
             _showError.publishEvent(resource.getString(R.string.empty_field))
+            logger.err(e)
         } catch (e: AppException) {
             _showError.publishEvent(e.message)
+            logger.err(e)
         }
     }
 }

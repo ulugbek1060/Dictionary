@@ -10,6 +10,8 @@ import gh.code.dictionary.data.database.DatabaseBuilder
 import gh.code.dictionary.data.network.RetrofitClient
 import gh.code.dictionary.data.repository.DictionaryRepository
 import gh.code.dictionary.data.repository.DictionaryRepositoryImpl
+import gh.code.dictionary.utils.Logger
+import gh.code.dictionary.utils.LoggerImpl
 
 class App : Application() {
 
@@ -20,19 +22,21 @@ class App : Application() {
 
     lateinit var dictionaryRepository: DictionaryRepository
     lateinit var resource: Resource
+    lateinit var logger: Logger
 
     override fun onCreate() {
         super.onCreate()
         client = RetrofitClient
         databaseBuilder = DatabaseBuilder
         mapper = MapperImpl()
+        logger = LoggerImpl(this)
         appDatabase = databaseBuilder.getInstance(this)
         resource = ResourceImp(this)
 
         dictionaryRepository = DictionaryRepositoryImpl(
             dictionaryApi = client.getDictionaryApi(),
             dictionaryDao = appDatabase.dictionaryDao(),
-            mapper = mapper
+            mapper = mapper,
         )
     }
 }

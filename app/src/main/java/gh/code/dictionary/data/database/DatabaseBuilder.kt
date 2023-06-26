@@ -19,7 +19,9 @@ object DatabaseBuilder {
             context.applicationContext,
             AppDatabase::class.java,
             DB_NAME
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
 
     private const val DB_NAME = "cd-ghost-dictionary"
 }

@@ -7,6 +7,7 @@ import gh.code.dictionary.data.Mapper
 import gh.code.dictionary.data.database.DictionaryDao
 import gh.code.dictionary.data.network.DictionaryApi
 import gh.code.dictionary.data.network.models.Word
+import gh.code.dictionary.utils.Logger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.json.JSONObject
@@ -40,12 +41,13 @@ class DictionaryRepositoryImpl(
     }
 
     override suspend fun saveToHistory(word: Word) {
+        if (word.word.isNullOrBlank()) return
         dictionaryDao.saveToHistory(mapper.fromModel(word))
     }
 
     override suspend fun removeFromHistory(word: Word) {
-        if (word.phonetic.isNullOrBlank()) throw DataNotFoundException("Word does not exist!")
-        dictionaryDao.removeFromHistory(word.phonetic)
+        if (word.word.isNullOrBlank()) throw DataNotFoundException("Word does not exist!")
+        dictionaryDao.removeFromHistory(word.word)
     }
 
     override fun getWordFromHistory(phonetic: String): Flow<Word> {

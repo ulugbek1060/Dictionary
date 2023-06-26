@@ -17,11 +17,11 @@ interface DictionaryDao {
     @Query("SELECT * FROM word_entity")
     fun getAllWords(): Flow<List<EntityWord>>
 
-    @Query("SELECT * FROM word_entity WHERE phonetic = :phonetic LIMIT 1")
-    fun getWordByQuery(phonetic: String): Flow<EntityWord>
+    @Query("SELECT * FROM word_entity WHERE word = :word LIMIT 1")
+    fun getWordByQuery(word: String): Flow<EntityWord>
 
-    @Query("DELETE FROM word_entity WHERE phonetic = :phonetic")
-    suspend fun removeFromHistory(phonetic: String)
+    @Query("DELETE FROM word_entity WHERE word = :word")
+    suspend fun removeFromHistory(word: String)
 
     @Query("DELETE FROM word_entity")
     suspend fun clearHistory()

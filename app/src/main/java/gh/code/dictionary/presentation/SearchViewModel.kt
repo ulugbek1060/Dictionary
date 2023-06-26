@@ -1,7 +1,5 @@
 package gh.code.dictionary.presentation
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,14 +13,14 @@ import gh.code.dictionary.core.asLiveData
 import gh.code.dictionary.core.publishEvent
 import gh.code.dictionary.data.network.models.Word
 import gh.code.dictionary.data.repository.DictionaryRepository
+import gh.code.dictionary.utils.Logger
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
     private val repository: DictionaryRepository,
     private val resource: Resource,
+    private val logger: Logger,
 ) : ViewModel() {
-
-    private val TAG = "SearchViewModel"
 
     private val _wordList = MutableLiveData(State())
     val wordList =  _wordList.asLiveData()
@@ -44,13 +42,16 @@ class SearchViewModel(
             _wordList.value = _wordList.value?.copy(
                 words = words,
             )
-            Log.d(TAG, "searchWord: $words")
+            logger.log(words)
         } catch (e: DataNotFoundException) {
             _showError.publishEvent(resource.getString(R.string.no_such_word))
+            logger.err(e)
         } catch (e: ConnectionException) {
             _showError.publishEvent(resource.getString(R.string.no_internet_connection))
+            logger.err(e)
         } catch (e: AppException) {
             _showError.publishEvent(resource.getString(R.string.something_went_wrong))
+            logger.err(e)
         } finally {
             hideProgress()
         }

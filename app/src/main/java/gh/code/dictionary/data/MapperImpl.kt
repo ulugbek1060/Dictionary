@@ -1,7 +1,5 @@
 package gh.code.dictionary.data
 
-import gh.code.dictionary.core.AppException
-import gh.code.dictionary.core.EmptyFieldException
 import gh.code.dictionary.data.database.entity.DefinitionR
 import gh.code.dictionary.data.database.entity.EntityWord
 import gh.code.dictionary.data.database.entity.MeaningR
@@ -13,9 +11,8 @@ import gh.code.dictionary.data.network.models.Word
 
 class MapperImpl : Mapper {
     override fun fromModel(model: Word): EntityWord {
-        if (model.phonetic.isNullOrBlank()) throw EmptyFieldException()
         return EntityWord(
-            word = model.word,
+            word = model.word!!,// Make sure word must not be empty or null
             phonetic = model.phonetic,
             meanings = model.meanings?.map { meaning ->
                 MeaningR(

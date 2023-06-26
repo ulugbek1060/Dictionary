@@ -5,8 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "word_entity")
 data class EntityWord(
-    val word: String?,
-    @PrimaryKey val phonetic: String,
+    @PrimaryKey val word: String,
+    val phonetic: String?,
     val meanings: List<MeaningR>? = listOf(),
     val phonetics: List<PhoneticR>? = listOf(),
     val sourceUrl: List<String>? = listOf()

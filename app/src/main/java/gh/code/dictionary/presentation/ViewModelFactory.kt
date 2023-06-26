@@ -18,11 +18,13 @@ class ViewModelFactory(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val repository = app.dictionaryRepository
         val resource = app.resource
+        val logger = app.logger
         return when {
             modelClass.isAssignableFrom(SearchViewModel::class.java) -> {
                 SearchViewModel(
                     repository = repository,
-                    resource = resource
+                    resource = resource,
+                    logger = logger
                 ) as T
             }
 
@@ -36,6 +38,7 @@ class ViewModelFactory(
                 DetailViewModel(
                     repository = repository,
                     resource = resource,
+                    logger = logger
                 ) as T
             }
 
