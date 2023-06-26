@@ -8,4 +8,5 @@
     <string name="history">history</string>
     <string name="audio_not_found">Audio not found!</string>
     <string name="soundimage">SoundImage</string>
+    <string name="search_hint">Enter a word that you want to know</string>
 </resources>

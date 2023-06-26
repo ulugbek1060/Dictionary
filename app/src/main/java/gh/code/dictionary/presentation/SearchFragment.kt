@@ -9,14 +9,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import gh.code.dictionary.R
 import gh.code.dictionary.core.AdapterWord
-import gh.code.dictionary.core.viewBinding
-import gh.code.dictionary.databinding.FragmentSearchBinding
 import gh.code.dictionary.core.BaseFragment
-import gh.code.dictionary.core.OnItemClickListener
 import gh.code.dictionary.core.ItemWordView
+import gh.code.dictionary.core.OnItemClickListener
+import gh.code.dictionary.core.observeEvent
 import gh.code.dictionary.core.textChanges
-import gh.code.dictionary.presentation.DetailFragment.DetailScreen
+import gh.code.dictionary.core.viewBinding
 import gh.code.dictionary.data.network.models.Word
+import gh.code.dictionary.databinding.FragmentSearchBinding
+import gh.code.dictionary.presentation.DetailFragment.DetailScreen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
@@ -46,8 +47,8 @@ class SearchFragment : BaseFragment(R.layout.fragment_search), OnItemClickListen
     }
 
     private fun showErrors() {
-        viewModel.showError.observe(viewLifecycleOwner) {
-            if (it != null) Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+        viewModel.showError.observeEvent(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -59,9 +60,13 @@ class SearchFragment : BaseFragment(R.layout.fragment_search), OnItemClickListen
 
     @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     private fun searchWord() {
-        binding.edittext.textChanges().debounce(500).onEach { str ->
-            viewModel.searchWord(str.toString())
-        }.launchIn(lifecycleScope)
+        binding.edittext
+            .textChanges()
+            .debounce(500)
+            .onEach { str ->
+                viewModel.searchWord(str.toString())
+            }
+            .launchIn(lifecycleScope)
     }
 
     override fun onClick(item: ItemWordView) {

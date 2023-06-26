@@ -9,12 +9,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import gh.code.dictionary.R
 import gh.code.dictionary.core.AdapterWord
 import gh.code.dictionary.core.BaseFragment
-import gh.code.dictionary.core.OnItemClickListener
 import gh.code.dictionary.core.ItemWordView
+import gh.code.dictionary.core.OnItemClickListener
 import gh.code.dictionary.core.viewBinding
 import gh.code.dictionary.data.network.models.Word
-import gh.code.dictionary.presentation.DetailFragment.DetailScreen
 import gh.code.dictionary.databinding.FragmentHistoryBinding
+import gh.code.dictionary.presentation.DetailFragment.DetailScreen
 
 class HistoryFragment : BaseFragment(R.layout.fragment_history), OnItemClickListener {
 
@@ -24,7 +24,10 @@ class HistoryFragment : BaseFragment(R.layout.fragment_history), OnItemClickList
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
+    }
 
+    private fun setupRecyclerView() {
         viewModel.historyList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
@@ -33,7 +36,6 @@ class HistoryFragment : BaseFragment(R.layout.fragment_history), OnItemClickList
             requireContext(), LinearLayoutManager.VERTICAL, false
         )
         binding.recyclerView.adapter = adapter
-
     }
 
     override fun onClick(item: ItemWordView) {
@@ -42,8 +44,7 @@ class HistoryFragment : BaseFragment(R.layout.fragment_history), OnItemClickList
                 resId = R.id.action_historyFragment_to_detailFragment,
                 args = bundleOf(ARG_SCREEN to DetailScreen(item))
             )
-        }
-        else {
+        } else {
             Toast.makeText(
                 requireContext(),
                 "Item is not correct!",
@@ -51,5 +52,4 @@ class HistoryFragment : BaseFragment(R.layout.fragment_history), OnItemClickList
             ).show()
         }
     }
-
 }

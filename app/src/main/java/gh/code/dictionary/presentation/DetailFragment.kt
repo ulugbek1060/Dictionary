@@ -1,10 +1,6 @@
 package gh.code.dictionary.presentation
 
-import android.media.AudioAttributes
-import android.media.MediaPlayer
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -15,12 +11,14 @@ import gh.code.dictionary.R
 import gh.code.dictionary.core.AdapterMeaning
 import gh.code.dictionary.core.BaseBottomSheetDialogFragment
 import gh.code.dictionary.core.BaseScreen
+import gh.code.dictionary.core.observeEvent
 import gh.code.dictionary.core.playFromUrl
 import gh.code.dictionary.core.serializable
 import gh.code.dictionary.core.viewBinding
 import gh.code.dictionary.data.network.models.Meaning
 import gh.code.dictionary.data.network.models.Word
 import gh.code.dictionary.databinding.FragmentDetailBinding
+
 
 class DetailFragment : BaseBottomSheetDialogFragment(R.layout.fragment_detail) {
 
@@ -40,7 +38,7 @@ class DetailFragment : BaseBottomSheetDialogFragment(R.layout.fragment_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupWord()
+        setupView()
         setupListeners()
     }
 
@@ -52,11 +50,14 @@ class DetailFragment : BaseBottomSheetDialogFragment(R.layout.fragment_detail) {
             }
         }
         binding.btnShare.setOnClickListener {
-
+//            val intent = Intent(Intent.ACTION_SEND)
+//            intent.setType("text/plain")
+//            intent.putExtra(Intent.EXTRA_TEXT, shareBody)
+//            startActivity(Intent.createChooser(intent, getString(R.string.share_using)))
         }
-        //        viewModel.showError.observe(viewLifecycleOwner) {
-//            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-//        }
+        viewModel.showError.observeEvent(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setupRecyclerView(meanings: List<Meaning>) {
@@ -69,7 +70,7 @@ class DetailFragment : BaseBottomSheetDialogFragment(R.layout.fragment_detail) {
         }
     }
 
-    private fun setupWord() {
+    private fun setupView() {
         viewModel.word.observe(viewLifecycleOwner) {
             binding.apply {
                 tvWord.text = it.word

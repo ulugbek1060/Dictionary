@@ -1,9 +1,9 @@
 package gh.code.dictionary.presentation
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import gh.code.dictionary.core.asLiveData
 import gh.code.dictionary.data.network.models.Word
 import gh.code.dictionary.data.repository.DictionaryRepository
 import kotlinx.coroutines.flow.collectLatest
@@ -14,7 +14,7 @@ class HistoryViewModel(
 ) : ViewModel() {
 
     private val _historyList = MutableLiveData<List<Word>>(emptyList())
-    val historyList: LiveData<List<Word>> get() = _historyList
+    val historyList = _historyList.asLiveData()
 
     init {
         viewModelScope.launch {
