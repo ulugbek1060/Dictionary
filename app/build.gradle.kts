@@ -59,8 +59,6 @@ dependencies {
     testImplementation(libs.junit)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
-    implementation("androidx.lifecycle:lifecycle-livedata-core-ktx:2.6.1")
     //noinspection KaptUsageInsteadOfKsp
     kapt(libs.androidx.room.compiler)
     annotationProcessor(libs.androidx.room.room.compiler)
