@@ -1,6 +1,7 @@
 package gh.code.dictionary
 
 import android.app.Application
+import gh.code.dictionary.core.CommonUi
 import gh.code.dictionary.core.Resource
 import gh.code.dictionary.core.ResourceImp
 import gh.code.dictionary.data.Mapper
@@ -23,6 +24,7 @@ class App : Application() {
     lateinit var dictionaryRepository: DictionaryRepository
     lateinit var resource: Resource
     lateinit var logger: Logger
+    lateinit var commonUi: CommonUi
 
     override fun onCreate() {
         super.onCreate()
@@ -38,6 +40,10 @@ class App : Application() {
             dictionaryDao = appDatabase.dictionaryDao(),
             mapper = mapper,
         )
+    }
+
+    fun initCommonUi(commonUi: CommonUi){
+        this.commonUi = commonUi
     }
 }
 

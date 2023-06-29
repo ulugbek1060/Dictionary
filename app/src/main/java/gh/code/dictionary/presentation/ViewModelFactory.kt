@@ -3,11 +3,9 @@ package gh.code.dictionary.presentation
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import gh.code.dictionary.App
 import gh.code.dictionary.core.BaseBottomSheetDialogFragment
 import gh.code.dictionary.core.BaseFragment
-import gh.code.dictionary.core.BaseScreen
 
 const val ARG_SCREEN = "SCREEN"
 
@@ -19,18 +17,23 @@ class ViewModelFactory(
         val repository = app.dictionaryRepository
         val resource = app.resource
         val logger = app.logger
+        val commonUi = app.commonUi
+
         return when {
             modelClass.isAssignableFrom(SearchViewModel::class.java) -> {
                 SearchViewModel(
                     repository = repository,
                     resource = resource,
-                    logger = logger
+                    logger = logger,
+                    commonUi = commonUi
                 ) as T
             }
 
             modelClass.isAssignableFrom(HistoryViewModel::class.java) -> {
                 HistoryViewModel(
-                    repository = repository
+                    repository = repository,
+                    resource = resource,
+                    commonUi = commonUi
                 ) as T
             }
 
@@ -38,7 +41,8 @@ class ViewModelFactory(
                 DetailViewModel(
                     repository = repository,
                     resource = resource,
-                    logger = logger
+                    logger = logger,
+                    commonUi = commonUi
                 ) as T
             }
 

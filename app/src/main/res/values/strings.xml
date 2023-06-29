@@ -9,4 +9,13 @@
     <string name="audio_not_found">Audio not found!</string>
     <string name="soundimage">SoundImage</string>
     <string name="search_hint">Enter a word that you want to know</string>
+    <string name="remove">remove</string>
+    <string name="item_not_found">Item not found.</string>
+    <string name="history_cleared_succesfully">History has cleared successfully</string>
+    <string name="clear">clear</string>
+    <string name="confirmation">Confirmation</string>
+    <string name="are_you_sure_to_clear_all_history">Are you sure to clear all history?</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="empty_box">empty box</string>
 </resources>

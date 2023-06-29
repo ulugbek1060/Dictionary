@@ -2,8 +2,8 @@ package gh.code.dictionary.presentation
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,7 +12,6 @@ import gh.code.dictionary.core.AdapterWord
 import gh.code.dictionary.core.BaseFragment
 import gh.code.dictionary.core.ItemWordView
 import gh.code.dictionary.core.OnItemClickListener
-import gh.code.dictionary.core.observeEvent
 import gh.code.dictionary.core.textChanges
 import gh.code.dictionary.core.viewBinding
 import gh.code.dictionary.data.network.models.Word
@@ -32,9 +31,8 @@ class SearchFragment : BaseFragment(R.layout.fragment_search), OnItemClickListen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observeState()
         searchWord()
-        observeList()
-        showErrors()
         setupRecyclerView()
     }
 
@@ -42,19 +40,14 @@ class SearchFragment : BaseFragment(R.layout.fragment_search), OnItemClickListen
         binding.recyclerView.layoutManager = LinearLayoutManager(
             requireContext(), LinearLayoutManager.VERTICAL, false
         )
-
         binding.recyclerView.adapter = adapter
     }
 
-    private fun showErrors() {
-        viewModel.showError.observeEvent(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun observeList() {
-        viewModel.wordList.observe(viewLifecycleOwner) { state ->
+    private fun observeState() {
+        viewModel.state.observe(viewLifecycleOwner) { state ->
             adapter.submitList(state.words)
+            binding.progressBar.isVisible = state.progress
+            binding.ivSearch.isVisible = state.isEmpty && !state.progress
         }
     }
 
@@ -64,21 +57,20 @@ class SearchFragment : BaseFragment(R.layout.fragment_search), OnItemClickListen
             .textChanges()
             .debounce(500)
             .onEach { str ->
-                viewModel.searchWord(str.toString())
+                viewModel.getWord(str.toString())
             }
             .launchIn(lifecycleScope)
     }
 
     override fun onClick(item: ItemWordView) {
-        if (item is Word) {
-            findNavController().navigate(
-                resId = R.id.action_searchFragment_to_detailFragment,
-                args = bundleOf(ARG_SCREEN to DetailScreen(item))
-            )
+        if (item !is Word) {
+            viewModel.showErrorItemNotFound()
+            return
         }
-        else {
-            Toast.makeText(requireContext(), "Item is not correct!", Toast.LENGTH_SHORT).show()
-        }
+        findNavController().navigate(
+            resId = R.id.action_searchFragment_to_detailFragment,
+            args = bundleOf(ARG_SCREEN to DetailScreen(item))
+        )
     }
 
 }

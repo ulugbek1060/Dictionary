@@ -10,6 +10,7 @@
     <View
         android:layout_width="10dp"
         android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/vert_cornered_decor" />
 
     <LinearLayout
@@ -41,11 +42,28 @@
             android:maxLines="1"
             tools:text="Word" />
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginHorizontal="8dp"
             android:background="#1A000000" />
 
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/remove_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:alpha="0.5"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/remove"
+        android:padding="5dp"
+        android:src="@drawable/ic_clear_24"
+        android:visibility="gone" />
 
 </LinearLayout>

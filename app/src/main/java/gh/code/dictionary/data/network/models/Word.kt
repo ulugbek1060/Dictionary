@@ -11,5 +11,4 @@ data class Word(
 ) : ItemWordView {
     override val itemWord: String? get() = word
     override val itemPhonetic: String? get() = phonetic
-
 }

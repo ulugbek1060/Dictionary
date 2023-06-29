@@ -3,6 +3,7 @@ package gh.code.dictionary.core
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -15,10 +16,15 @@ interface ItemWordView {
 
 interface OnItemClickListener {
     fun onClick(item: ItemWordView)
+    fun removeItem(item: ItemWordView) = Unit
 }
 
+const val WITH_REMOVE_BUTTON = 1
+const val WITHOUT_REMOVE_BUTTON = 0
+
 class AdapterWord(
-    private val itemClickListener: OnItemClickListener
+    private val itemClickListener: OnItemClickListener,
+    private val buttonsFlag: Int = WITHOUT_REMOVE_BUTTON
 ) : ListAdapter<ItemWordView, AdapterWord.ItemViewHolder>(ItemDiffUtil()) {
 
     inner class ItemViewHolder(
@@ -26,10 +32,14 @@ class AdapterWord(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(itemView: ItemWordView) {
             binding.apply {
+                removeItem.isVisible = buttonsFlag == WITH_REMOVE_BUTTON
                 tvPhonetic.text = itemView.itemPhonetic
                 tvWord.text = itemView.itemWord
                 root.setOnClickListener {
                     itemClickListener.onClick(itemView)
+                }
+                removeItem.setOnClickListener {
+                    itemClickListener.removeItem(itemView)
                 }
             }
         }

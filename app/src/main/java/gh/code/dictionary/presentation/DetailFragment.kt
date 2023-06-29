@@ -55,9 +55,6 @@ class DetailFragment : BaseBottomSheetDialogFragment(R.layout.fragment_detail) {
 //            intent.putExtra(Intent.EXTRA_TEXT, shareBody)
 //            startActivity(Intent.createChooser(intent, getString(R.string.share_using)))
         }
-        viewModel.showError.observeEvent(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-        }
     }
 
     private fun setupRecyclerView(meanings: List<Meaning>) {

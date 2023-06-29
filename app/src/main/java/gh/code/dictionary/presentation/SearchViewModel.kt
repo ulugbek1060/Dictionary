@@ -5,12 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import gh.code.dictionary.R
 import gh.code.dictionary.core.AppException
+import gh.code.dictionary.core.CommonUi
 import gh.code.dictionary.core.ConnectionException
 import gh.code.dictionary.core.DataNotFoundException
-import gh.code.dictionary.core.MutableLiveEvent
 import gh.code.dictionary.core.Resource
 import gh.code.dictionary.core.asLiveData
-import gh.code.dictionary.core.publishEvent
 import gh.code.dictionary.data.network.models.Word
 import gh.code.dictionary.data.repository.DictionaryRepository
 import gh.code.dictionary.utils.Logger
@@ -19,58 +18,67 @@ import kotlinx.coroutines.launch
 class SearchViewModel(
     private val repository: DictionaryRepository,
     private val resource: Resource,
+    private val commonUi: CommonUi,
     private val logger: Logger,
 ) : ViewModel() {
 
-    private val _wordList = MutableLiveData(State())
-    val wordList =  _wordList.asLiveData()
+    private val _state = MutableLiveData(State())
+    val state = _state.asLiveData()
 
-    private val _showError = MutableLiveEvent<String?>(null)
-    val showError =  _showError.asLiveData()
+    private var _currentWord: String = ""
 
-    fun searchWord(word: String) = viewModelScope.launch {
-        showProgress()
-        try {
+    fun getWord(word: String) {
+        if (_currentWord == word) return
+        _currentWord = word
 
-            if (word.isEmpty()) {
+        viewModelScope.launch {
+            showProgress()
+            try {
+
+                if (word.isEmpty()) {
+                    clearList()
+                    return@launch
+                }
+
+                val words = repository.searchWord(word)
                 clearList()
-                return@launch
+                _state.value = _state.value?.copy(
+                    words = words,
+                )
+                logger.log(words)
+            } catch (e: DataNotFoundException) {
+                commonUi.toast(resource.getString(R.string.no_such_word))
+                logger.err(e)
+            } catch (e: ConnectionException) {
+                commonUi.toast(resource.getString(R.string.no_internet_connection))
+                logger.err(e)
+            } catch (e: AppException) {
+                commonUi.toast(resource.getString(R.string.something_went_wrong))
+                logger.err(e)
+            } finally {
+                hideProgress()
             }
-
-            val words = repository.searchWord(word)
-            clearList()
-            _wordList.value = _wordList.value?.copy(
-                words = words,
-            )
-            logger.log(words)
-        } catch (e: DataNotFoundException) {
-            _showError.publishEvent(resource.getString(R.string.no_such_word))
-            logger.err(e)
-        } catch (e: ConnectionException) {
-            _showError.publishEvent(resource.getString(R.string.no_internet_connection))
-            logger.err(e)
-        } catch (e: AppException) {
-            _showError.publishEvent(resource.getString(R.string.something_went_wrong))
-            logger.err(e)
-        } finally {
-            hideProgress()
         }
     }
 
+    fun showErrorItemNotFound() {
+        commonUi.toast(resource.getString(R.string.item_not_found))
+    }
+
     private fun showProgress() {
-        _wordList.value = _wordList.value?.copy(
+        _state.value = _state.value?.copy(
             progress = true
         )
     }
 
     private fun hideProgress() {
-        _wordList.value = _wordList.value?.copy(
+        _state.value = _state.value?.copy(
             progress = false
         )
     }
 
     private fun clearList() {
-        _wordList.value = _wordList.value?.copy(
+        _state.value = _state.value?.copy(
             words = listOf(),
             progress = false,
         )
