@@ -38,9 +38,9 @@ class HistoryFragment : BaseFragment(R.layout.fragment_history), OnItemClickList
     private fun observeState() {
         viewModel.state.observe(viewLifecycleOwner) { state ->
             adapter.submitList(state.list)
-            topBarMenuVisibility(state.isEmpty)
-            binding.recyclerView.isVisible = !state.isEmpty
-            binding.ivEmpty.isVisible = state.isEmpty
+            topBarMenuVisibility(state.isListEmpty)
+            binding.recyclerView.isVisible = !state.isListEmpty
+            binding.ivEmpty.isVisible = state.isListEmpty
         }
     }
 

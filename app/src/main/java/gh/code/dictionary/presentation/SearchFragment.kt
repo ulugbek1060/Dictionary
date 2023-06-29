@@ -48,7 +48,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_search), OnItemClickListen
             adapter.submitList(state.words)
             binding.progressBar.isVisible = state.progress
             binding.ivSearch.isVisible =
-                state.isEmpty && !state.progress && state.hasConnection
+                state.isListEmpty && !state.progress && state.hasConnection
             binding.ivConnection.isVisible = !state.hasConnection
         }
     }
@@ -74,5 +74,4 @@ class SearchFragment : BaseFragment(R.layout.fragment_search), OnItemClickListen
             args = bundleOf(ARG_SCREEN to DetailScreen(item))
         )
     }
-
 }

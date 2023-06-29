@@ -16,6 +16,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.scan
 
 @ExperimentalCoroutinesApi
 @CheckResult
@@ -68,3 +69,11 @@ fun ImageView.playFromUrl(
         }
     }.onStart()
 }
+
+//@ExperimentalCoroutinesApi
+//fun <T> Flow<T>.simpleScan(count: Int): Flow<List<T?>> {
+//    val items = List<T?>(count) { null }
+//    return this.scan(items) { previous, value ->
+//        previous.drop(1) + value
+//    }
+//}

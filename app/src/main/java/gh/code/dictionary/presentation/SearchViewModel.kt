@@ -102,6 +102,6 @@ class SearchViewModel(
         val words: List<Word> = emptyList(),
         val hasConnection: Boolean = false
     ) {
-        val isEmpty: Boolean = words.isEmpty()
+        val isListEmpty: Boolean = words.isEmpty()
     }
 }

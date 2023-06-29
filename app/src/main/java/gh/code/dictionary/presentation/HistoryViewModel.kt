@@ -25,7 +25,10 @@ class HistoryViewModel(
     init {
         viewModelScope.launch {
             repository.getHistory().collectLatest {
-                _state.value = _state.value?.copy(list = it)
+                _state.value = _state.value?.copy(
+                    list = it,
+                    isListEmpty = it.isEmpty()
+                )
             }
         }
     }
@@ -63,7 +66,6 @@ class HistoryViewModel(
 
     data class State(
         val list: List<Word> = emptyList(),
-    ) {
-        val isEmpty: Boolean get() = list.isEmpty()
-    }
+        val isListEmpty: Boolean = false
+    )
 }

@@ -3,6 +3,7 @@ package gh.code.dictionary.core
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 
 class Event<T>(value: T) {
     private var _value: T? = value
@@ -37,4 +38,3 @@ fun UnitLiveEvent.observeEvent(lifecycleOwner: LifecycleOwner, listener: UnitEve
         listener()
     }
 }
-

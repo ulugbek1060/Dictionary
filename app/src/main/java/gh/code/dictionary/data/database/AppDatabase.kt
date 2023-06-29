@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 import gh.code.dictionary.data.database.entity.EntityWord
 
 
-@Database(entities = [EntityWord::class], version = 2)
+@Database(entities = [EntityWord::class], version = 3)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun dictionaryDao(): DictionaryDao

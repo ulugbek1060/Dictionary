@@ -11,7 +11,7 @@
     <string name="search_hint">Enter a word that you want to know</string>
     <string name="remove">remove</string>
     <string name="item_not_found">Item not found.</string>
-    <string name="history_cleared_succesfully">History has cleared successfully</string>
+    <string name="history_cleared_succesfully">History has been cleared successfully</string>
     <string name="clear">clear</string>
     <string name="confirmation">Confirmation</string>
     <string name="are_you_sure_to_clear_all_history">Are you sure to clear all history?</string>
