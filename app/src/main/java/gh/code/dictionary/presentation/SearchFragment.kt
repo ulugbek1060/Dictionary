@@ -47,7 +47,9 @@ class SearchFragment : BaseFragment(R.layout.fragment_search), OnItemClickListen
         viewModel.state.observe(viewLifecycleOwner) { state ->
             adapter.submitList(state.words)
             binding.progressBar.isVisible = state.progress
-            binding.ivSearch.isVisible = state.isEmpty && !state.progress
+            binding.ivSearch.isVisible =
+                state.isEmpty && !state.progress && state.hasConnection
+            binding.ivConnection.isVisible = !state.hasConnection
         }
     }
 

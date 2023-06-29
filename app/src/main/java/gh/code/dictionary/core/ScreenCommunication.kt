@@ -9,7 +9,7 @@ import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-class CommonUiImpl(
+class ScreenCommunication(
     private val context: Context
 ) : CommonUi, ActivityRequired {
 

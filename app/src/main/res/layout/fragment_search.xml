@@ -65,6 +65,15 @@
         android:src="@drawable/ic_search"
         android:visibility="gone" />
 
+    <ImageView
+        android:id="@+id/ivConnection"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:contentDescription="@string/search"
+        android:src="@drawable/ic_no_connection"
+        android:visibility="gone" />
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"

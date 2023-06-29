@@ -11,8 +11,10 @@ import gh.code.dictionary.data.database.DatabaseBuilder
 import gh.code.dictionary.data.network.RetrofitClient
 import gh.code.dictionary.data.repository.DictionaryRepository
 import gh.code.dictionary.data.repository.DictionaryRepositoryImpl
+import gh.code.dictionary.utils.ConnectivityManagerNetworkMonitor
 import gh.code.dictionary.utils.Logger
 import gh.code.dictionary.utils.LoggerImpl
+import gh.code.dictionary.utils.NetworkMonitor
 
 class App : Application() {
 
@@ -25,6 +27,7 @@ class App : Application() {
     lateinit var resource: Resource
     lateinit var logger: Logger
     lateinit var commonUi: CommonUi
+    lateinit var networkMonitor: NetworkMonitor
 
     override fun onCreate() {
         super.onCreate()
@@ -34,6 +37,7 @@ class App : Application() {
         logger = LoggerImpl(this)
         appDatabase = databaseBuilder.getInstance(this)
         resource = ResourceImp(this)
+        networkMonitor = ConnectivityManagerNetworkMonitor(this)
 
         dictionaryRepository = DictionaryRepositoryImpl(
             dictionaryApi = client.getDictionaryApi(),

@@ -18,6 +18,7 @@ class ViewModelFactory(
         val resource = app.resource
         val logger = app.logger
         val commonUi = app.commonUi
+        val networkMonitor = app.networkMonitor
 
         return when {
             modelClass.isAssignableFrom(SearchViewModel::class.java) -> {
@@ -25,7 +26,8 @@ class ViewModelFactory(
                     repository = repository,
                     resource = resource,
                     logger = logger,
-                    commonUi = commonUi
+                    commonUi = commonUi,
+                    networkMonitor = networkMonitor
                 ) as T
             }
 

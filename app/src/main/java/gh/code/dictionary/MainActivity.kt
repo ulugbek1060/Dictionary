@@ -10,7 +10,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.elevation.SurfaceColors
 import gh.code.dictionary.core.ActivityRequired
 import gh.code.dictionary.core.CommonUi
-import gh.code.dictionary.core.CommonUiImpl
+import gh.code.dictionary.core.ScreenCommunication
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<BottomNavigationView>(R.id.bottomNavigationView)
             .setupWithNavController(navController)
 
-        commonUi = CommonUiImpl(this)
+        commonUi = ScreenCommunication(this)
         (application as App).initCommonUi(commonUi)
         activityRequired = (commonUi as ActivityRequired)
         activityRequired.onCreated(this)

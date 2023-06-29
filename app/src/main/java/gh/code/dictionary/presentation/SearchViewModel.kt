@@ -13,6 +13,8 @@ import gh.code.dictionary.core.asLiveData
 import gh.code.dictionary.data.network.models.Word
 import gh.code.dictionary.data.repository.DictionaryRepository
 import gh.code.dictionary.utils.Logger
+import gh.code.dictionary.utils.NetworkMonitor
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
@@ -20,10 +22,21 @@ class SearchViewModel(
     private val resource: Resource,
     private val commonUi: CommonUi,
     private val logger: Logger,
+    private val networkMonitor: NetworkMonitor,
 ) : ViewModel() {
 
     private val _state = MutableLiveData(State())
     val state = _state.asLiveData()
+
+    init {
+        viewModelScope.launch {
+            networkMonitor.isOnline.collectLatest {
+                _state.value = _state.value?.copy(
+                    hasConnection = it
+                )
+            }
+        }
+    }
 
     private var _currentWord: String = ""
 
@@ -87,6 +100,7 @@ class SearchViewModel(
     data class State(
         val progress: Boolean = false,
         val words: List<Word> = emptyList(),
+        val hasConnection: Boolean = false
     ) {
         val isEmpty: Boolean = words.isEmpty()
     }
