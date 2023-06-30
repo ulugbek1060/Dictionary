@@ -2,6 +2,7 @@ package gh.code.dictionary.data.repository
 
 import gh.code.dictionary.core.ConnectionException
 import gh.code.dictionary.core.DataNotFoundException
+import gh.code.dictionary.core.EmptyFieldException
 import gh.code.dictionary.core.ParseBackendException
 import gh.code.dictionary.data.Mapper
 import gh.code.dictionary.data.database.DictionaryDao
@@ -40,7 +41,7 @@ class DictionaryRepositoryImpl(
     }
 
     override suspend fun saveToHistory(word: Word) {
-        if (word.word.isNullOrBlank()) return
+        if (word.word.isNullOrBlank()) throw EmptyFieldException()
         dictionaryDao.saveToHistory(mapper.fromModel(word))
     }
 
