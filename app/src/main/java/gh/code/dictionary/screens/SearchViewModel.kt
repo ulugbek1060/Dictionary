@@ -1,4 +1,4 @@
-package gh.code.dictionary.presentation
+package gh.code.dictionary.screens
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

@@ -13,7 +13,7 @@ object RetrofitClient {
 
     private var retrofit: Retrofit? = null
 
-    private fun getClient(): Retrofit? {
+    fun getClient(): Retrofit? {
         if (retrofit == null) {
             retrofit = Retrofit
                 .Builder()
@@ -25,8 +25,8 @@ object RetrofitClient {
         return retrofit
     }
 
-    fun getDictionaryApi(): DictionaryApi {
-        return getClient()?.create(DictionaryApi::class.java)!!
+    fun getDictionaryApi(retrofit: Retrofit?): DictionaryApi {
+        return retrofit?.create(DictionaryApi::class.java)!!
     }
 
     private fun createClient(): OkHttpClient {

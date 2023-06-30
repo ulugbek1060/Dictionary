@@ -7,7 +7,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context=".presentation.DetailFragment">
+    tools:context=".screens.DetailFragment">
 
     <View
         android:layout_width="60dp"

@@ -1,4 +1,4 @@
-package gh.code.dictionary.presentation
+package gh.code.dictionary.screens
 
 import android.os.Bundle
 import android.view.View
@@ -7,16 +7,19 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import gh.code.dictionary.DependencyProvider
 import gh.code.dictionary.R
+import gh.code.dictionary.core.ARG_SCREEN
 import gh.code.dictionary.core.AdapterWord
 import gh.code.dictionary.core.BaseFragment
 import gh.code.dictionary.core.ItemWordView
 import gh.code.dictionary.core.OnItemClickListener
+import gh.code.dictionary.core.screenViewModel
 import gh.code.dictionary.core.textChanges
 import gh.code.dictionary.core.viewBinding
 import gh.code.dictionary.data.network.models.Word
 import gh.code.dictionary.databinding.FragmentSearchBinding
-import gh.code.dictionary.presentation.DetailFragment.DetailScreen
+import gh.code.dictionary.screens.DetailFragment.DetailScreen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
@@ -26,7 +29,15 @@ import kotlinx.coroutines.flow.onEach
 class SearchFragment : BaseFragment(R.layout.fragment_search), OnItemClickListener {
 
     override val binding by viewBinding<FragmentSearchBinding>()
-    override val viewModel by screenViewModel<SearchViewModel>()
+    override val viewModel by screenViewModel<SearchViewModel> {
+        SearchViewModel(
+            repository = DependencyProvider.repository,
+            resource = DependencyProvider.resource,
+            commonUi = DependencyProvider.commonUi,
+            logger = DependencyProvider.logger,
+            networkMonitor = DependencyProvider.networkMonitor
+        )
+    }
     private val adapter by lazy { AdapterWord(this) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

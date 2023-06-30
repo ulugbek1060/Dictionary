@@ -1,4 +1,4 @@
-package gh.code.dictionary.presentation
+package gh.code.dictionary.screens
 
 import android.os.Bundle
 import android.view.View
@@ -9,18 +9,28 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import gh.code.dictionary.R
 import gh.code.dictionary.core.AdapterWord
 import gh.code.dictionary.core.BaseFragment
+import gh.code.dictionary.DependencyProvider
+import gh.code.dictionary.core.ARG_SCREEN
 import gh.code.dictionary.core.ItemWordView
 import gh.code.dictionary.core.OnItemClickListener
 import gh.code.dictionary.core.WITH_REMOVE_BUTTON
+import gh.code.dictionary.core.screenViewModel
 import gh.code.dictionary.core.viewBinding
 import gh.code.dictionary.data.network.models.Word
 import gh.code.dictionary.databinding.FragmentHistoryBinding
-import gh.code.dictionary.presentation.DetailFragment.DetailScreen
+import gh.code.dictionary.screens.DetailFragment.DetailScreen
 
 class HistoryFragment : BaseFragment(R.layout.fragment_history), OnItemClickListener {
 
-    override val viewModel by screenViewModel<HistoryViewModel>()
+
     override val binding by viewBinding<FragmentHistoryBinding>()
+    override val viewModel by screenViewModel<HistoryViewModel> {
+        HistoryViewModel(
+            repository = DependencyProvider.repository,
+            resource = DependencyProvider.resource,
+            commonUi = DependencyProvider.commonUi
+        )
+    }
     private val adapter by lazy {
         AdapterWord(
             itemClickListener = this,

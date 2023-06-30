@@ -1,18 +1,19 @@
-package gh.code.dictionary.presentation
+package gh.code.dictionary.screens
 
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.core.view.children
 import androidx.recyclerview.widget.LinearLayoutManager
+import gh.code.dictionary.DependencyProvider
 import gh.code.dictionary.R
+import gh.code.dictionary.core.ARG_SCREEN
 import gh.code.dictionary.core.AdapterMeaning
 import gh.code.dictionary.core.BaseBottomSheetDialogFragment
 import gh.code.dictionary.core.BaseScreen
-import gh.code.dictionary.core.observeEvent
 import gh.code.dictionary.core.playFromUrl
+import gh.code.dictionary.core.screenViewModel
 import gh.code.dictionary.core.serializable
 import gh.code.dictionary.core.viewBinding
 import gh.code.dictionary.data.network.models.Meaning
@@ -27,7 +28,14 @@ class DetailFragment : BaseBottomSheetDialogFragment(R.layout.fragment_detail) {
     ) : BaseScreen
 
     override val binding: FragmentDetailBinding by viewBinding()
-    override val viewModel by screenViewModel<DetailViewModel>()
+    override val viewModel by screenViewModel<DetailViewModel> {
+        DetailViewModel(
+            repository = DependencyProvider.repository,
+            resource = DependencyProvider.resource,
+            logger = DependencyProvider.logger,
+            commonUi = DependencyProvider.commonUi
+        )
+    }
     private lateinit var adapter: AdapterMeaning
 
     override fun onCreate(savedInstanceState: Bundle?) {

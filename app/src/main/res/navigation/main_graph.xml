@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="gh.code.dictionary.presentation.SearchFragment"
+        android:name="gh.code.dictionary.screens.SearchFragment"
         android:label="MainFragment"
         tools:layout="@layout/fragment_search" >
         <action
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/historyFragment"
-        android:name="gh.code.dictionary.presentation.HistoryFragment"
+        android:name="gh.code.dictionary.screens.HistoryFragment"
         android:label="HistoryFragment"
         tools:layout="@layout/fragment_history" >
         <action
@@ -26,7 +26,7 @@
     </fragment>
     <dialog
         android:id="@+id/detailFragment"
-        android:name="gh.code.dictionary.presentation.DetailFragment"
+        android:name="gh.code.dictionary.screens.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" />
 
