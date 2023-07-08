@@ -60,7 +60,7 @@ class HistoryViewModel(
         }
     }
 
-    fun showErrorItemNotFound() {
+    fun errorMessage() {
         commonUi.toast(resource.getString(R.string.item_not_found))
     }
 

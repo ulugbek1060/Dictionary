@@ -58,7 +58,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_search), OnItemClickListen
         viewModel.state.observe(viewLifecycleOwner) { state ->
             adapter.submitList(state.words)
             binding.progressBar.isVisible = state.progress
-            binding.ivSearch.isVisible =
+            binding.containerSearch.isVisible =
                 state.isListEmpty && !state.progress && state.hasConnection
             binding.ivConnection.isVisible = !state.hasConnection
         }
@@ -77,7 +77,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_search), OnItemClickListen
 
     override fun onClick(item: ItemWordView) {
         if (item !is Word) {
-            viewModel.showErrorItemNotFound()
+            viewModel.errorMessage()
             return
         }
         findNavController().navigate(

@@ -6,8 +6,6 @@ import gh.code.dictionary.core.CommonUi
 import gh.code.dictionary.core.Resource
 import gh.code.dictionary.core.ResourceImp
 import gh.code.dictionary.core.ScreenCommunication
-import gh.code.dictionary.data.Mapper
-import gh.code.dictionary.data.MapperImpl
 import gh.code.dictionary.data.database.AppDatabase
 import gh.code.dictionary.data.network.RetrofitClient
 import gh.code.dictionary.data.repository.DictionaryRepository
@@ -15,6 +13,9 @@ import gh.code.dictionary.data.repository.DictionaryRepositoryImpl
 import gh.code.dictionary.utils.ConnectivityManagerNetworkMonitor
 import gh.code.dictionary.utils.Logger
 import gh.code.dictionary.utils.LoggerImpl
+import gh.code.dictionary.utils.Mapper
+import gh.code.dictionary.utils.MapperImpl
+import gh.code.dictionary.utils.NetworkMonitor
 
 object DependencyProvider {
 
@@ -43,9 +44,11 @@ object DependencyProvider {
 
     val commonUi: CommonUi by lazy { ScreenCommunication(applicationContext) }
 
-    val networkMonitor by lazy { ConnectivityManagerNetworkMonitor(applicationContext) }
-
     val logger: Logger by lazy { LoggerImpl(applicationContext) }
+
+    val networkMonitor: NetworkMonitor by lazy {
+        ConnectivityManagerNetworkMonitor(applicationContext)
+    }
 
     val repository: DictionaryRepository by lazy {
         DictionaryRepositoryImpl(

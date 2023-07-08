@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             app:menu="@menu/top_app_bar"
             android:layout_height="?attr/actionBarSize"
-            app:title="@string/history" />
+            app:title="History" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -30,13 +30,32 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <ImageView
-        android:id="@+id/ivEmpty"
+    <LinearLayout
+        android:id="@+id/containerEmpty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:contentDescription="@string/empty_box"
-        android:src="@drawable/ic_empty_box"
-        android:visibility="gone" />
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="@string/empty_box"
+            android:src="@drawable/ic_empty_box"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.5"
+            android:text="Empty" />
+
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

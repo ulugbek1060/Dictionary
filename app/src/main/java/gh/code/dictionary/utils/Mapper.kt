@@ -1,4 +1,4 @@
-package gh.code.dictionary.data
+package gh.code.dictionary.utils
 
 import gh.code.dictionary.data.database.entity.EntityWord
 import gh.code.dictionary.data.network.models.Word

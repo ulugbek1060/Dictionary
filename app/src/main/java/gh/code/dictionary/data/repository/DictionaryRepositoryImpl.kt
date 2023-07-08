@@ -4,7 +4,7 @@ import gh.code.dictionary.core.ConnectionException
 import gh.code.dictionary.core.DataNotFoundException
 import gh.code.dictionary.core.EmptyFieldException
 import gh.code.dictionary.core.ParseBackendException
-import gh.code.dictionary.data.Mapper
+import gh.code.dictionary.utils.Mapper
 import gh.code.dictionary.data.database.DictionaryDao
 import gh.code.dictionary.data.network.DictionaryApi
 import gh.code.dictionary.data.network.models.Word

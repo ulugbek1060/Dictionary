@@ -56,14 +56,33 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/ivSearch"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+    <LinearLayout
+        android:id="@+id/containerSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:contentDescription="@string/search"
-        android:src="@drawable/ic_search"
-        android:visibility="gone" />
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/search"
+            android:src="@drawable/ic_search" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.5"
+            android:text="Search" />
+
+    </LinearLayout>
+
 
     <ImageView
         android:id="@+id/ivConnection"

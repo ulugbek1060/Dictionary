@@ -50,7 +50,7 @@ class HistoryFragment : BaseFragment(R.layout.fragment_history), OnItemClickList
             adapter.submitList(state.list)
             topBarMenuVisibility(state.isListEmpty)
             binding.recyclerView.isVisible = !state.isListEmpty
-            binding.ivEmpty.isVisible = state.isListEmpty
+            binding.containerEmpty.isVisible = state.isListEmpty
         }
     }
 
@@ -82,7 +82,7 @@ class HistoryFragment : BaseFragment(R.layout.fragment_history), OnItemClickList
 
     override fun onClick(item: ItemWordView) {
         if (item !is Word) {
-            viewModel.showErrorItemNotFound()
+            viewModel.errorMessage()
             return
         }
         findNavController().navigate(
@@ -93,7 +93,7 @@ class HistoryFragment : BaseFragment(R.layout.fragment_history), OnItemClickList
 
     override fun removeItem(item: ItemWordView) {
         if (item !is Word) {
-            viewModel.showErrorItemNotFound()
+            viewModel.errorMessage()
             return
         }
         viewModel.removeItem(item)
