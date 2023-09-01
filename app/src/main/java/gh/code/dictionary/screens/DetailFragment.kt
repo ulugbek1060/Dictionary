@@ -4,15 +4,17 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.core.view.children
 import androidx.recyclerview.widget.LinearLayoutManager
 import gh.code.dictionary.DependencyProvider
 import gh.code.dictionary.R
 import gh.code.dictionary.core.ARG_SCREEN
-import gh.code.dictionary.core.AdapterMeaning
+import gh.code.dictionary.screens.adapters.AdapterMeaning
 import gh.code.dictionary.core.BaseBottomSheetDialogFragment
 import gh.code.dictionary.core.BaseScreen
-import gh.code.dictionary.core.playFromUrl
+import gh.code.dictionary.core.observeEvent
+import gh.code.dictionary.utils.playFromUrl
 import gh.code.dictionary.core.screenViewModel
 import gh.code.dictionary.core.serializable
 import gh.code.dictionary.core.viewBinding
@@ -31,9 +33,7 @@ class DetailFragment : BaseBottomSheetDialogFragment(R.layout.fragment_detail) {
     override val viewModel by screenViewModel<DetailViewModel> {
         DetailViewModel(
             repository = DependencyProvider.repository,
-            resource = DependencyProvider.resource,
-            logger = DependencyProvider.logger,
-            commonUi = DependencyProvider.commonUi
+            resources = DependencyProvider.resources,
         )
     }
     private lateinit var adapter: AdapterMeaning
@@ -46,7 +46,7 @@ class DetailFragment : BaseBottomSheetDialogFragment(R.layout.fragment_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupView()
+        observe()
         setupListeners()
     }
 
@@ -75,7 +75,11 @@ class DetailFragment : BaseBottomSheetDialogFragment(R.layout.fragment_detail) {
         }
     }
 
-    private fun setupView() {
+    private fun observe() {
+        viewModel.message.observeEvent(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+        }
+
         viewModel.word.observe(viewLifecycleOwner) {
             binding.apply {
                 tvWord.text = it.word

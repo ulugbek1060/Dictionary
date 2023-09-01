@@ -2,20 +2,23 @@ package gh.code.dictionary.screens
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.elevation.SurfaceColors
 import gh.code.dictionary.DependencyProvider
 import gh.code.dictionary.R
 import gh.code.dictionary.core.ARG_SCREEN
-import gh.code.dictionary.core.AdapterWord
+import gh.code.dictionary.screens.adapters.AdapterWord
 import gh.code.dictionary.core.BaseFragment
-import gh.code.dictionary.core.ItemWordView
-import gh.code.dictionary.core.OnItemClickListener
+import gh.code.dictionary.core.observeEvent
+import gh.code.dictionary.screens.adapters.ItemWordView
+import gh.code.dictionary.screens.adapters.OnItemClickListener
 import gh.code.dictionary.core.screenViewModel
-import gh.code.dictionary.core.textChanges
+import gh.code.dictionary.utils.textChanges
 import gh.code.dictionary.core.viewBinding
 import gh.code.dictionary.data.network.models.Word
 import gh.code.dictionary.databinding.FragmentSearchBinding
@@ -32,9 +35,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_search), OnItemClickListen
     override val viewModel by screenViewModel<SearchViewModel> {
         SearchViewModel(
             repository = DependencyProvider.repository,
-            resource = DependencyProvider.resource,
-            commonUi = DependencyProvider.commonUi,
-            logger = DependencyProvider.logger,
+            resources = DependencyProvider.resources,
             networkMonitor = DependencyProvider.networkMonitor
         )
     }
@@ -42,6 +43,10 @@ class SearchFragment : BaseFragment(R.layout.fragment_search), OnItemClickListen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        requireActivity().window.navigationBarColor =
+            SurfaceColors.SURFACE_2.getColor(requireContext())
+
         observeState()
         searchWord()
         setupRecyclerView()
@@ -55,6 +60,10 @@ class SearchFragment : BaseFragment(R.layout.fragment_search), OnItemClickListen
     }
 
     private fun observeState() {
+        viewModel.message.observeEvent(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+        }
+
         viewModel.state.observe(viewLifecycleOwner) { state ->
             adapter.submitList(state.words)
             binding.progressBar.isVisible = state.progress

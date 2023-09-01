@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:autofillHints="name"
                 android:background="@drawable/vert_cornered_decor"
-                android:hint="@string/search_hint" />
+                android:hint="@string/search" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

@@ -1,6 +1,6 @@
 package gh.code.dictionary.data.network.models
 
-import gh.code.dictionary.core.ItemWordView
+import gh.code.dictionary.screens.adapters.ItemWordView
 
 data class Word(
     val word: String?,

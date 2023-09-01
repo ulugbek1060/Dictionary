@@ -1,6 +1,6 @@
 package gh.code.dictionary.data.network.models
 
-import gh.code.dictionary.core.ItemDefinitionView
+import gh.code.dictionary.screens.adapters.ItemDefinitionView
 
 data class Definition(
     val definition: String? = null,

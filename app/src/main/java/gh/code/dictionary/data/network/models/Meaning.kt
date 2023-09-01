@@ -1,7 +1,7 @@
 package gh.code.dictionary.data.network.models
 
-import gh.code.dictionary.core.ItemDefinitionView
-import gh.code.dictionary.core.ItemMeaningView
+import gh.code.dictionary.screens.adapters.ItemDefinitionView
+import gh.code.dictionary.screens.adapters.ItemMeaningView
 
 data class Meaning(
     val partOfSpeech: String?,

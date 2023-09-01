@@ -33,8 +33,4 @@ typealias UnitLiveEvent = LiveEvent<Unit>
 typealias UnitEventListener = () -> Unit
 
 fun MutableUnitLiveEvent.publishEvent() = publishEvent(Unit)
-fun UnitLiveEvent.observeEvent(lifecycleOwner: LifecycleOwner, listener: UnitEventListener) {
-    observeEvent(lifecycleOwner) { _ ->
-        listener()
-    }
-}
+

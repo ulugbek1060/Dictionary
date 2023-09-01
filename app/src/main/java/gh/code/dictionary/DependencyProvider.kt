@@ -2,27 +2,24 @@ package gh.code.dictionary
 
 import android.content.Context
 import androidx.room.Room
-import gh.code.dictionary.core.CommonUi
-import gh.code.dictionary.core.Resource
-import gh.code.dictionary.core.ResourceImp
-import gh.code.dictionary.core.ScreenCommunication
+import gh.code.dictionary.core.Resources
+import gh.code.dictionary.core.core_impl.AndroidResources
 import gh.code.dictionary.data.database.AppDatabase
 import gh.code.dictionary.data.network.RetrofitClient
 import gh.code.dictionary.data.repository.DictionaryRepository
 import gh.code.dictionary.data.repository.DictionaryRepositoryImpl
 import gh.code.dictionary.utils.ConnectivityManagerNetworkMonitor
-import gh.code.dictionary.utils.Logger
-import gh.code.dictionary.utils.LoggerImpl
-import gh.code.dictionary.utils.Mapper
-import gh.code.dictionary.utils.MapperImpl
+import gh.code.dictionary.core.Logger
+import gh.code.dictionary.core.core_impl.AndroidLogger
+import gh.code.dictionary.data.mapper.Mapper
+import gh.code.dictionary.data.mapper.MapperImpl
 import gh.code.dictionary.utils.NetworkMonitor
 
 object DependencyProvider {
 
     private lateinit var applicationContext: Context
-    fun init(context: Context) {
-        applicationContext = context
-    }
+
+    fun init(context: Context) { applicationContext = context }
 
     private val mapper: Mapper = MapperImpl()
 
@@ -40,11 +37,9 @@ object DependencyProvider {
 
     private val dictionaryDao by lazy { appDatabase.dictionaryDao() }
 
-    val resource: Resource by lazy { ResourceImp(applicationContext) }
+    val resources: Resources by lazy { AndroidResources(applicationContext) }
 
-    val commonUi: CommonUi by lazy { ScreenCommunication(applicationContext) }
-
-    val logger: Logger by lazy { LoggerImpl(applicationContext) }
+    val logger: Logger by lazy { AndroidLogger(applicationContext) }
 
     val networkMonitor: NetworkMonitor by lazy {
         ConnectivityManagerNetworkMonitor(applicationContext)
@@ -58,6 +53,6 @@ object DependencyProvider {
         )
     }
 
-    private const val DB_NAME = "cd-ghost-dictionary"
+    private const val DB_NAME = "cd-ghost-dictionary-db"
 
 }

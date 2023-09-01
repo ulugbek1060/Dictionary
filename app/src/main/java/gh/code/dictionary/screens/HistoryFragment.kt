@@ -1,19 +1,22 @@
 package gh.code.dictionary.screens
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import gh.code.dictionary.R
-import gh.code.dictionary.core.AdapterWord
+import gh.code.dictionary.screens.adapters.AdapterWord
 import gh.code.dictionary.core.BaseFragment
 import gh.code.dictionary.DependencyProvider
 import gh.code.dictionary.core.ARG_SCREEN
-import gh.code.dictionary.core.ItemWordView
-import gh.code.dictionary.core.OnItemClickListener
-import gh.code.dictionary.core.WITH_REMOVE_BUTTON
+import gh.code.dictionary.core.observeEvent
+import gh.code.dictionary.screens.adapters.ItemWordView
+import gh.code.dictionary.screens.adapters.OnItemClickListener
+import gh.code.dictionary.screens.adapters.WITH_REMOVE_BUTTON
 import gh.code.dictionary.core.screenViewModel
 import gh.code.dictionary.core.viewBinding
 import gh.code.dictionary.data.network.models.Word
@@ -27,8 +30,7 @@ class HistoryFragment : BaseFragment(R.layout.fragment_history), OnItemClickList
     override val viewModel by screenViewModel<HistoryViewModel> {
         HistoryViewModel(
             repository = DependencyProvider.repository,
-            resource = DependencyProvider.resource,
-            commonUi = DependencyProvider.commonUi
+            resources = DependencyProvider.resources,
         )
     }
     private val adapter by lazy {
@@ -46,6 +48,10 @@ class HistoryFragment : BaseFragment(R.layout.fragment_history), OnItemClickList
     }
 
     private fun observeState() {
+        viewModel.message.observeEvent(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+        }
+
         viewModel.state.observe(viewLifecycleOwner) { state ->
             adapter.submitList(state.list)
             topBarMenuVisibility(state.isListEmpty)
@@ -64,7 +70,16 @@ class HistoryFragment : BaseFragment(R.layout.fragment_history), OnItemClickList
         binding.topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.clear -> {
-                    viewModel.clearHistoryDialog()
+                    val builder = AlertDialog.Builder(requireContext())
+                    builder.setTitle(getString(R.string.confirmation))
+                    builder.setMessage(getString(R.string.are_you_sure_to_clear_all_history))
+                    builder.setPositiveButton(getText(R.string.yes)) { _, _ ->
+                        viewModel.clearHistory()
+                    }
+                    builder.setNegativeButton(getText(R.string.no)) { _, _ ->
+                        builder.create().dismiss()
+                    }
+                    builder.show()
                     true
                 }
 
